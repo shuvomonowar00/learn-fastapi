@@ -1,0 +1,11 @@
+# Python virtual environments
+penv/
+.penv/
+
+# Environment variables
+.env
+
+# Externally folders
+.qodo/
+.vscode/
+.idea/
