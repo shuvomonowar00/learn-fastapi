@@ -9,3 +9,5 @@ penv/
 .qodo/
 .vscode/
 .idea/
+
+__pycache__/

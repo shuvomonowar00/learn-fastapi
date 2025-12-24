@@ -1,4 +1,5 @@
 from fastapi import APIRouter, BackgroundTasks
+from pydantic import BaseModel
 import time
 from datetime import datetime
 
@@ -6,6 +7,10 @@ order_router = APIRouter(
     prefix="/orders",
     tags=["Orders"]
 )
+
+class OrderRequest(BaseModel):
+    order_id: int
+    product_name: str
 
 # Background Task Function
 def process_order(order_id: int, product_name: str):
@@ -31,8 +36,7 @@ def process_order(order_id: int, product_name: str):
 # API Endpoint
 @order_router.post("/order/")
 def create_order(
-    order_id: int,
-    product_name: str,
+    order: OrderRequest,
     background_tasks: BackgroundTasks
 ):
     """
@@ -43,13 +47,13 @@ def create_order(
     # Register background task
     background_tasks.add_task(
         process_order,
-        order_id,
-        product_name
+        order.order_id,
+        order.product_name
     )
 
     # Immediate response
     return {
         "message": "Order placed successfully",
-        "order_id": order_id,
+        "order_id": order.order_id,
         "status": "Processing in background"
     }
