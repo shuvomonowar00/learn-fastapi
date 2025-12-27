@@ -4,6 +4,7 @@ import projects.crud.student_system.models as models
 from projects.crud.student_system.database import engine
 import projects.crud.student_system.students as students
 from learning_modules.background_tasks.order_processing.order_processing_01 import order_router
+from learning_modules.middleware.middleware_basic_01 import middleware_router, add_process_time_header
 
 
 app = FastAPI()
@@ -27,3 +28,8 @@ app.include_router(students.router)
 '''
 app.include_router(order_router)
 
+'''
+    Middleware
+'''
+app.include_router(middleware_router)
+app.middleware("http")(add_process_time_header)
